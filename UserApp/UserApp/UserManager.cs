@@ -25,30 +25,17 @@ namespace Day10
                         Authenticate();
                         break;
                     case 3:
-                        return;                        
+                        return;
+                    default:
+                        Console.WriteLine("Ivalid choice.");
+                        break;
                 }
             }
         }
 
         private static void Register()
         {
-            string username;
-            bool usernameExists;
-            do
-            {
-                Console.Write("Enter username: ");
-                username = Console.ReadLine();
-                usernameExists = false;
-                foreach (User user2 in users)
-                {
-                    if (user2.Username == username)
-                    {
-                        Console.WriteLine("Username already exists");
-                        usernameExists = true;
-                        break;
-                    }
-                }
-            } while (usernameExists);
+            string username = getValidUsername();
             Console.Write("Enter fullname: ");
             string fullName = Console.ReadLine();
             Console.Write("Enter password: ");
@@ -62,16 +49,7 @@ namespace Day10
             Console.Write("Enter age: ");
             int Age = int.Parse(Console.ReadLine());
             Console.WriteLine("Select a role:\n 0. User,\n 1. Admin");
-            Role role = 0;
-            int roleNumber =int.Parse(Console.ReadLine());   
-            if(roleNumber == 0)
-            {
-                role = Role.User;
-            }
-            if(roleNumber == 1)
-            {
-                role = Role.Admin;
-            }
+            Role role = getValidRole();
             User user = new User(fullName, password, username, Email, PhoneNumber, Address, Age, role);
             users.Add(user);
         }
@@ -111,6 +89,53 @@ namespace Day10
                     }
                 }
             }
+        }
+
+        private static string getValidUsername()
+        {
+            string username;
+            bool usernameExists;
+            do
+            {
+                Console.Write("Enter username: ");
+                username = Console.ReadLine();
+                usernameExists = false;
+                foreach (User user2 in users)
+                {
+                    if (user2.Username == username)
+                    {
+                        Console.WriteLine("Username already exists");
+                        usernameExists = true;
+                        break;
+                    }
+                }
+            } while (usernameExists);
+            return username;
+        }
+
+        private static Role getValidRole()
+        {
+            Role role = 0;
+            while(true)
+            {
+                Console.WriteLine("Please enter 0 for User or 1 for Admin:");
+                int roleNumber = int.Parse(Console.ReadLine());
+                if (roleNumber == 0)
+                {
+                    role = Role.User;
+                    break;
+                }
+                else if (roleNumber == 1)
+                {
+                    role = Role.Admin;
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter 0 for User or 1 for Admin.");
+                }
+            }       
+            return role;
         }
     }
 }
