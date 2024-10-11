@@ -41,6 +41,9 @@ namespace Project2
                     case "6":
                         sortBooksByPublicationYear();
                         break;
+                    default:
+                        Console.WriteLine("Invalid choice.");
+                        break;
                 }
             }
         }
